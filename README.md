@@ -1,51 +1,71 @@
-# Workshop Service Management System (Odoo 17)
+# Odoo 17 Module: Workshop Service Management
 
-Repositori ini berisi modul kustom Odoo 17 yang dirancang untuk mengelola operasional bengkel atau pusat servis. Modul ini mengintegrasikan alur kerja dari pendaftaran servis hingga otomatisasi dokumen penjualan (*Sales*) dan pergudangan (*Inventory*).
+[![Odoo Version](https://img.shields.io/badge/Odoo-17.0-purple.svg)](https://www.odoo.com/)
+[![License](https://img.shields.io/badge/License-LGPL--3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0.html)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 
-## 🚀 Fitur Utama
+## 📝 Overview
 
-*   **Service Order Management**: Pencatatan data kendaraan, estimasi waktu servis, dan teknisi penanggung jawab.
-*   **Automated Calculations**: Perhitungan otomatis Subtotal, Pajak (11%), Grand Total, serta durasi hari servis menggunakan *compute fields*.
-*   **Smart Validation**: Validasi cerdas untuk mencegah konfirmasi tanpa baris servis atau pembuatan dokumen ganda.
-*   **Sales Integration**: Konversi otomatis baris servis menjadi *Sale Order Quotation* hanya dengan satu klik.
-*   **Stock Picking Filter**: Otomatisasi pembuatan dokumen pengiriman barang (*Stock Picking*) yang secara cerdas hanya menarik item bertipe *Spare Part*.
+**Workshop Service** is a custom Odoo 17 module designed to optimize the end-to-end service center lifecycle. This module bridges technical field operations with commercial and logistics management, ensuring data accuracy between Service Orders, Sales, and Inventory.
 
-## 🛠️ Tech Stack
+## ✨ Key Technical Features
 
-*   **ERP Framework**: Odoo 17 (Community/Enterprise).
-*   **Language**: Python 3.10+.
-*   **UI/UX**: XML, OWL Framework.
-*   **Database**: PostgreSQL.
+### 🔧 Core Management
+*   **Centralized Service Records**: Comprehensive management of vehicle data, license/serial numbers, and technician assignments.
+*   **Dynamic Service Lines**: Logical separation between service components (**Labor**) and physical components (**Spare Parts**).
 
-## 📋 Prasyarat Sistem
+### ⚙️ Automation & Business Logic
+*   **Reactive Compute Engine**: Real-time calculation for Subtotal, Tax (11%), and Grand Total using Odoo's `api.depends`.
+*   **Time-Tracking Logic**: Automated calculation of Service Duration Days to monitor technician KPIs.
 
-Sebelum menginstal, pastikan modul berikut sudah terpasang di database Odoo Anda:
-1.  `sale_management`.
-2.  `stock` (Inventory).
+### 🔄 Seamless Integration (Cross-Module)
+*   **Sales Automation**: Automatic transformation of Service Lines into a Sale Order Quotation with a single click.
+*   **Inventory Orchestration**: Automated generation of Stock Picking (Delivery Orders) featuring smart filters that only process physical products (Spare Parts), preventing manual data entry errors.
 
-## 🔧 Cara Instalasi
+### 🛡️ Data Integrity & Validations
+*   **Strict Operational Flow**: Status validation to ensure workflows adhere to standard operating procedures (Draft → Confirmed → In Progress → Done).
+*   **Constraint Safeguards**: Prevention of duplicate Sales or Picking documents through relational ID reference checks.
 
-1.  **Clone Repositori**:
+## 🛠️ Tech Stack & Standards
+
+*   **Framework**: Odoo 17 LGPL
+*   **Backend**: Python 3.10+ following PEP8 standards
+*   **Frontend**: XML, OWL (Odoo Web Library)
+*   **Database**: PostgreSQL
+*   **Design Pattern**: MVC (Model-View-Controller)
+
+## 🚀 Quick Start
+
+### Prerequisites
+Ensure the following dependency modules are installed:
+*   `base`
+*   `sale_management`
+*   `stock`
+
+### Installation
+1.  Clone the repository into your Odoo `custom_addons` directory:
     ```bash
-    cd /path/to/your/odoo/custom_addons
     git clone [https://github.com/kasyifulkurobial/workshop-service.git](https://github.com/kasyifulkurobial/workshop-service.git)
     ```
-2.  **Update Addons Path**: Pastikan direktori `custom_addons` sudah terdaftar di file `odoo.conf` Anda.
-3.  **Restart Service**:
+2.  Update the *Addons Path* in your `odoo.conf` file.
+3.  Restart the Odoo server and update the module list:
     ```bash
     ./odoo-bin -c odoo.conf -u workshop_service
     ```
-4.  **Aktivasi**: Masuk ke menu **Apps**, cari `workshop_service`, lalu klik **Activate**.
 
-## 📖 Skenario Pengujian (UAT)
+## 🧪 User Acceptance Testing (UAT) Scenario
 
-Untuk memverifikasi fungsi modul, Anda dapat mengikuti langkah-langkah berikut:
-1.  Buat **Service Order** baru dan isi detail kendaraan serta teknisi.
-2.  Tambahkan baris servis dengan tipe **Labor** dan **Spare Part**.
-3.  Klik **Confirm** untuk memvalidasi data.
-4.  Klik **Create Sale Order** untuk membuat penawaran penjualan.
-5.  Klik **Create Stock Picking** untuk memproses pengeluaran barang dari gudang (Hanya baris Spare Part yang akan masuk).
+| Step | Action | Expected Result |
+|---|---|---|
+| 1 | Create New Service Order | Reference "New" generated, customer & vehicle data assigned. |
+| 2 | Add Labor & Part Lines | Subtotal, Tax, and Grand Total calculated automatically. |
+| 3 | Click 'Confirm' | Status changes to **Confirmed**, Action buttons appear. |
+| 4 | Click 'Create Sale Order' | SO Quotation created with all 3 lines; Button is hidden. |
+| 5 | Click 'Create Stock Picking' | Delivery Order created **exclusively** for Spare Part items. |
 
 ---
-**Kontak Pengembang:**
-Kasyiful Kurobi Alqorrosyai - Junior Odoo Developer
+
+**Developed by:**
+**Kasyiful Kurobi Alqorrosyai**
+*Junior Odoo Developer*
+[LinkedIn](https://www.linkedin.com/in/kasyiful-kurobi-alqorrosyai-2a59a0250) | [Email](mailto:kurobikasyiful14@gmail.com)
